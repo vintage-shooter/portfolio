@@ -22,7 +22,9 @@
   <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css?v=LAYPdn"><link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css?v=LAYPdn" type="text/css">
 
   
-  
+  <script src="assets/js/gallery-enhancements.js"></script>
+<link rel="stylesheet" href="assets/theme/css/layout-enhancements.css">
+
   
 </head>
 <body>
@@ -594,5 +596,17 @@
   
  <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
     <input name="animation" type="hidden">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Remove Mobirise branding section entirely
+    const mobiriseBranding = document.querySelector('section.display-7');
+    if (mobiriseBranding) {
+        mobiriseBranding.remove();
+    }
+
+    // Extra: remove any leftover anchors pointing to mobiri.se
+    document.querySelectorAll('a[href*="mobiri.se"], a[href*="mobirise.com"]').forEach(a => a.remove());
+});
+</script>
   </body>
 </html>
