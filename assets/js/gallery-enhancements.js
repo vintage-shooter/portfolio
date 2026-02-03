@@ -1,37 +1,33 @@
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
 
-  function protectImage(img) {
-    img.draggable = false;
-
-    img.addEventListener('contextmenu', function (e) {
+  /* -----------------------------
+     DESKTOP — block right click
+  ----------------------------- */
+  document.addEventListener('contextmenu', function (e) {
+    if (e.target.closest('img')) {
       e.preventDefault();
-    });
+    }
+  }, true); // ← capture phase (important)
 
-    img.addEventListener('dragstart', function (e) {
+
+  /* -----------------------------
+     DESKTOP — block drag
+  ----------------------------- */
+  document.addEventListener('dragstart', function (e) {
+    if (e.target.closest('img')) {
       e.preventDefault();
-    });
+    }
+  }, true);
 
-    // mobile long-press prevention
-    img.addEventListener('touchstart', function () {}, { passive: true });
-  }
 
-  // apply to all current images
-  document.querySelectorAll('img').forEach(protectImage);
+  /* -----------------------------
+     MOBILE — block long press save
+  ----------------------------- */
+  document.addEventListener('touchstart', function (e) {
+    if (e.target.closest('img')) {
+      e.target.style.webkitTouchCallout = 'none';
+    }
+  }, { passive: true, capture: true });
 
-  // also protect images added later (Mobirise sometimes injects content)
-  const observer = new MutationObserver(function (mutations) {
-    mutations.forEach(function (mutation) {
-      mutation.addedNodes.forEach(function (node) {
-        if (node.tagName === 'IMG') protectImage(node);
-        if (node.querySelectorAll) {
-          node.querySelectorAll('img').forEach(protectImage);
-        }
-      });
-    });
-  });
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
-});
+})();
