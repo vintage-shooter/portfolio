@@ -1,36 +1,44 @@
-/* -----------------------------
-   Robust Image Protection
-   Blocks right-click and drag on all images
-   Works for dynamic content too
------------------------------ */
+document.addEventListener('DOMContentLoaded', function () {
 
-(function() {
-  // Helper function to check if an element is an image
-  function isImage(el) {
-    return el.tagName && el.tagName.toLowerCase() === 'img';
+  function protectImage(img) {
+    img.draggable = false;
+
+    img.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+
+    img.addEventListener('dragstart', function (e) {
+      e.preventDefault();
+    });
+
+    // mobile long-press prevention
+    img.addEventListener('touchstart', function () {}, { passive: true });
   }
 
-  // Block right-click on images
-  document.addEventListener('contextmenu', function(e) {
-    if (isImage(e.target)) {
-      e.preventDefault();
-      // Optional: show a small tooltip or alert
-      // console.log('Right-click is disabled on images.');
-    }
+  // apply to all current images
+  document.querySelectorAll('img').forEach(protectImage);
+
+  // also protect images added later (Mobirise sometimes injects content)
+  const observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      mutation.addedNodes.forEach(function (node) {
+        if (node.tagName === 'IMG') protectImage(node);
+        if (node.querySelectorAll) {
+          node.querySelectorAll('img').forEach(protectImage);
+        }
+      });
+    });
   });
 
-  // Block dragstart on images
-  document.addEventListener('dragstart', function(e) {
-    if (isImage(e.target)) {
-      e.preventDefault();
-    }
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
   });
 
-  // Optional: prevent touch-and-hold on mobile
-  document.addEventListener('touchstart', function(e) {
-    if (isImage(e.target)) {
-      e.preventDefault();
-    }
-  }, { passive: false });
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
 
-})();
+});
