@@ -35,3 +35,8 @@ body > section.display-7 {
     height: 0 !important;
     overflow: hidden !important;
 }
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}

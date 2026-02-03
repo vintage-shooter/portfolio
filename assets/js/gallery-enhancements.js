@@ -34,11 +34,4 @@ document.addEventListener('DOMContentLoaded', function () {
     childList: true,
     subtree: true
   });
-
-img {
-  -webkit-user-drag: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-}
-
 });
