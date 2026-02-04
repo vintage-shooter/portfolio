@@ -61,4 +61,29 @@
 
   });
 
+  /* -----------------------------
+     VIDEO RESIZING — auto portrait / landscape
+  ----------------------------- */
+  document.addEventListener('DOMContentLoaded', function () {
+    const iframes = document.querySelectorAll('iframe.mbr-embedded-video');
+    iframes.forEach(iframe => {
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('video-wrapper');
+
+      // Insert wrapper before iframe and move iframe inside
+      iframe.parentNode.insertBefore(wrapper, iframe);
+      wrapper.appendChild(iframe);
+
+      // Detect aspect ratio
+      const width = parseInt(iframe.getAttribute('width')) || 16;
+      const height = parseInt(iframe.getAttribute('height')) || 9;
+
+      if (height > width) {
+        wrapper.classList.add('portrait');
+      } else {
+        wrapper.classList.add('landscape');
+      }
+    });
+  });
+
 })();
