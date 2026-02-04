@@ -43,7 +43,7 @@ img {
 /* Video wrapper for responsive sizing */
 .video-wrapper {
   position: relative;
-  width: 100%;
+  width: 80%;
   max-width: 100%;
   overflow: hidden;
 }
